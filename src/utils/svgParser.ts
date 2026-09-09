@@ -109,7 +109,7 @@ export const generateSpriteMarkup = (
     })
     .join('\n');
 
-  const markup = `<svg xmlns="http://www.w3.org/2000/svg">
+  const markup = `<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" width="0" height="0">
 ${symbols}
 </svg>`;
   return minify ? minifyMarkup(markup) : markup;
