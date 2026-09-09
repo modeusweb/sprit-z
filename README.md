@@ -6,6 +6,10 @@ A web application for combining SVG icons into a single reusable sprite.
 
 Sprit-Z is a convenient tool for creating SVG sprites from individual icons. The application allows you to upload SVG files, configure generation parameters, and get a ready-to-use sprite with usage examples for integration into web projects.
 
+## Demo
+
+Try the application online: [https://sprit-z.vercel.app/](https://sprit-z.vercel.app/)
+
 ## Key Features
 
 - **File Upload** — drag and drop SVG files or select via dialog
