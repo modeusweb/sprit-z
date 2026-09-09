@@ -58,7 +58,7 @@ const IconCard = memo(function IconCard({ icon, onRemove, onToggleEnabled, onRen
 
       <div className="aspect-square w-full flex items-center justify-center mb-3">
         <div
-          className="w-16 h-16 text-gray-600 dark:text-gray-300 transition-transform duration-200 group-hover:scale-110"
+          className="flex items-center justify-center w-16 h-16 text-gray-600 dark:text-gray-300 transition-transform duration-200 group-hover:scale-110"
           dangerouslySetInnerHTML={{ __html: icon.content }}
         />
       </div>
