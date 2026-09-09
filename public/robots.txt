@@ -1,0 +1,10 @@
+# robots.txt for Sprit-Z - SVG Sprite Generator
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://sprit-z.vercel.app/sitemap.xml
+
+# Crawl delay (optional, adjust as needed)
+Crawl-delay: 1

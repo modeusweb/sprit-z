@@ -1,0 +1,33 @@
+{
+  "name": "Sprit-Z - SVG Sprite Generator",
+  "short_name": "Sprit-Z",
+  "description": "Free online SVG sprite generator. Combine multiple SVG icons into a single reusable sprite.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#9333ea",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["developer", "tools", "productivity"],
+  "shortcuts": [
+    {
+      "name": "Create Sprite",
+      "short_name": "New Sprite",
+      "description": "Create a new SVG sprite",
+      "url": "/",
+      "icons": [
+        {
+          "src": "/favicon.svg",
+          "sizes": "any"
+        }
+      ]
+    }
+  ]
+}
