@@ -58,7 +58,7 @@ const IconCard = memo(function IconCard({ icon, onRemove, onToggleEnabled, onRen
 
       <div className="aspect-square w-full flex items-center justify-center mb-3">
         <div
-          className="flex items-center justify-center w-16 h-16 text-gray-600 dark:text-gray-300 transition-transform duration-200 group-hover:scale-110"
+          className="flex items-center justify-center w-10 h-10 text-gray-600 dark:text-gray-300 transition-transform duration-200 group-hover:scale-110"
           dangerouslySetInnerHTML={{ __html: icon.content }}
         />
       </div>
@@ -189,7 +189,7 @@ export const IconGrid = memo(function IconGrid({ icons, onRemove, onClearAll, on
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 pb-5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-4 pb-5">
           {filteredIcons.map((icon) => (
             <IconCard
               key={icon.id}
