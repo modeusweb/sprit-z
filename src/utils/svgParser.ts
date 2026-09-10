@@ -123,6 +123,91 @@ export const minifyMarkup = (markup: string): string =>
     .replace(/\s+>/g, '>')
     .replace(/^\s+|\s+$/g, '');
 
+/**
+ * Formats markup with consistent 2-space indentation based on tag nesting.
+ * Uses DOM parsing to properly handle nested structure.
+ */
+export const formatMarkup = (markup: string, baseIndent: number = 0): string => {
+  const indent = '  ';
+  const baseIndentStr = indent.repeat(baseIndent);
+  
+  // Wrap in a container to parse
+  const container = `<container>${markup}</container>`;
+  const doc = domParser.parseFromString(container, 'image/svg+xml');
+  const containerEl = doc.querySelector('container');
+  
+  if (!containerEl) {
+    // Fallback to simple formatting if parsing fails
+    return markup
+      .split('\n')
+      .map(line => {
+        const trimmed = line.trim();
+        if (!trimmed) return '';
+        return baseIndentStr + trimmed;
+      })
+      .filter(line => line !== '')
+      .join('\n');
+  }
+  
+  const formatNode = (node: Node, depth: number): string => {
+    const currentIndent = baseIndentStr + indent.repeat(depth);
+    
+    if (node.nodeType === Node.TEXT_NODE) {
+      const text = node.textContent?.trim();
+      return text ? currentIndent + text : '';
+    }
+    
+    if (node.nodeType !== Node.ELEMENT_NODE) {
+      return '';
+    }
+    
+    const element = node as Element;
+    const tagName = element.tagName.toLowerCase();
+    
+    // Self-closing tags (void elements in SVG/XML)
+    const voidElements = new Set(['path', 'rect', 'circle', 'ellipse', 'line', 'polyline', 'polygon', 'use', 'image', 'stop']);
+    
+    if (voidElements.has(tagName) && element.children.length === 0) {
+      const attrs = Array.from(element.attributes)
+        .map(attr => `${attr.name}="${escapeAttrValue(attr.value)}"`)
+        .join(' ');
+      return currentIndent + `<${tagName}${attrs ? ' ' + attrs : ''} />`;
+    }
+    
+    // Regular element with children
+    const attrs = Array.from(element.attributes)
+      .map(attr => `${attr.name}="${escapeAttrValue(attr.value)}"`)
+      .join(' ');
+    
+    const childrenHtml = Array.from(element.children)
+      .map(child => formatNode(child, depth + 1))
+      .filter(html => html !== '')
+      .join('\n');
+    
+    // Text content
+    const textContent = Array.from(element.childNodes)
+      .filter(node => node.nodeType === Node.TEXT_NODE)
+      .map(node => node.textContent?.trim())
+      .filter(text => text)
+      .join(' ');
+    
+    if (childrenHtml) {
+      return `${currentIndent}<${tagName}${attrs ? ' ' + attrs : ''}>
+${childrenHtml}
+${currentIndent}</${tagName}>`;
+    } else if (textContent) {
+      return `${currentIndent}<${tagName}${attrs ? ' ' + attrs : ''}>${textContent}</${tagName}>`;
+    } else {
+      return `${currentIndent}<${tagName}${attrs ? ' ' + attrs : ''}></${tagName}>`;
+    }
+  };
+  
+  return Array.from(containerEl.children)
+    .map(child => formatNode(child, 0))
+    .filter(html => html !== '')
+    .join('\n');
+};
+
 // Matches xmlns and xmlns:prefix attributes on any element.
 const XMLNS_RE = /\sxmlns(:[a-zA-Z0-9_-]+)?="[^"]*"/g;
 
@@ -148,8 +233,11 @@ export const generateSpriteMarkup = (
       // stroke="currentColor", stroke-width, …) — it never makes it into
       // innerContent, but still applies to every shape inside the symbol.
       const presentationAttrs = icon.presentationAttrs ? ` ${icon.presentationAttrs}` : '';
+      const formattedInnerContent = minify 
+        ? stripXmlns(icon.innerContent)
+        : formatMarkup(stripXmlns(icon.innerContent), 2);
       return `  <symbol id="${symbolId}"${icon.viewBox ? ` viewBox="${icon.viewBox}"` : ''}${presentationAttrs}>
-    ${stripXmlns(icon.innerContent)}
+${formattedInnerContent}
   </symbol>`;
     })
     .join('\n');
