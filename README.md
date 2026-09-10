@@ -25,6 +25,7 @@ Try the application online: [https://sprit-z.vercel.app/](https://sprit-z.vercel
   - Delete icons
   - Clear all icons
 - **Automatic Conflict Resolution** — when duplicate IDs are detected, suffixes are automatically added (`-2`, `-3`, etc.)
+- **Faithful Symbol Output** — inherited styling from the source root `<svg>` (`fill="none"`, `stroke="currentColor"`, `stroke-width`, …) is carried onto each `<symbol>`, so stroke-based icon sets render correctly
 - **State Persistence** — all settings and icons are saved to localStorage
 - **Dark Theme** — dark mode support
 

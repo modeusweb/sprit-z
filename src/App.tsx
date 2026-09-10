@@ -116,14 +116,18 @@ function App() {
     setIcons(prev => prev.map(icon => ({ ...icon, enabled })));
   }, []);
 
-  // When "Use currentColor" is on, replace key colors in both the preview
-  // content and the sprite inner content (originals stay untouched in `icons`).
+  // When "Use currentColor" is on, replace key colors in the preview content,
+  // the sprite inner content and the inherited presentation attributes that
+  // will be re-emitted on <symbol> (originals stay untouched in `icons`).
   const displayIcons = useMemo(() => {
     if (!useCurrentColor) return icons;
     return icons.map(icon => ({
       ...icon,
       content: replaceColorsWithCurrentColor(icon.content),
       innerContent: replaceColorsWithCurrentColor(icon.innerContent),
+      presentationAttrs: icon.presentationAttrs
+        ? replaceColorsWithCurrentColor(icon.presentationAttrs)
+        : icon.presentationAttrs,
     }));
   }, [icons, useCurrentColor]);
 

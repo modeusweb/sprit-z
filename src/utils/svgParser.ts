@@ -16,6 +16,43 @@ export const sanitizeId = (value: string): string => {
   return cleaned.replace(/^-+|-+$/g, '');
 };
 
+/**
+ * Inherited paint-related presentation attributes that icon sets commonly
+ * place on the root `<svg>`. Only inner content is copied into the sprite,
+ * so these must be re-emitted on the `<symbol>` — otherwise stroke-based
+ * icons (`fill="none" stroke="currentColor" stroke-width="2"…`, e.g.
+ * Feather/Lucide/Tabler/Heroicons outline) lose their styling and render
+ * as filled black shapes.
+ */
+const INHERITED_PAINT_ATTRS = [
+  'fill',
+  'fill-opacity',
+  'fill-rule',
+  'stroke',
+  'stroke-width',
+  'stroke-linecap',
+  'stroke-linejoin',
+  'stroke-dasharray',
+  'stroke-dashoffset',
+  'stroke-miterlimit',
+  'stroke-opacity',
+  'color',
+] as const;
+
+const escapeAttrValue = (value: string): string =>
+  value.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+
+/** Serializes inherited presentation attributes of a root `<svg>` element (undefined when there are none). */
+export const extractPresentationAttrs = (svgElement: Element): string | undefined => {
+  const attrs = INHERITED_PAINT_ATTRS
+    .map(name => {
+      const value = svgElement.getAttribute(name);
+      return value === null ? null : `${name}="${escapeAttrValue(value.trim())}"`;
+    })
+    .filter((attr): attr is string => attr !== null);
+  return attrs.length > 0 ? attrs.join(' ') : undefined;
+};
+
 export const parseSvgFile = (file: File): Promise<SvgIcon> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -34,6 +71,9 @@ export const parseSvgFile = (file: File): Promise<SvgIcon> => {
         const viewBox = svgElement.getAttribute('viewBox') || undefined;
         const width = svgElement.getAttribute('width') || undefined;
         const height = svgElement.getAttribute('height') || undefined;
+        // Styling that lives on the root <svg> (fill="none", stroke="currentColor", …)
+        // is lost when only inner content is copied, so capture it for the <symbol>.
+        const presentationAttrs = extractPresentationAttrs(svgElement);
 
         // Full SVG for display in grid
         const displaySvg = svgElement.cloneNode(true) as SVGElement;
@@ -60,6 +100,7 @@ export const parseSvgFile = (file: File): Promise<SvgIcon> => {
           viewBox,
           width,
           height,
+          presentationAttrs,
           enabled: true,
         });
       } catch (error) {
@@ -103,7 +144,11 @@ export const generateSpriteMarkup = (
     .filter(icon => icon.enabled !== false)
     .map(icon => {
       const symbolId = `${prefix}${resolveId(icon)}`;
-      return `  <symbol id="${symbolId}"${icon.viewBox ? ` viewBox="${icon.viewBox}"` : ''}>
+      // Re-attach styling captured from the source root <svg> (fill="none",
+      // stroke="currentColor", stroke-width, …) — it never makes it into
+      // innerContent, but still applies to every shape inside the symbol.
+      const presentationAttrs = icon.presentationAttrs ? ` ${icon.presentationAttrs}` : '';
+      return `  <symbol id="${symbolId}"${icon.viewBox ? ` viewBox="${icon.viewBox}"` : ''}${presentationAttrs}>
     ${stripXmlns(icon.innerContent)}
   </symbol>`;
     })
@@ -137,7 +182,9 @@ export const generateUsageExample = (
   return minify ? minifyMarkup(examples) : examples;
 };
 
-const COLOR_ATTR_RE = /\s(fill|stroke|stop-color|flood-color|lighting-color)="([^"]*)"/gi;
+// `(^|\s)` so the very first attribute of a bare `attr="value" …` list
+// (e.g. presentation attrs re-emitted on `<symbol>`) is matched as well.
+const COLOR_ATTR_RE = /(^|\s)(fill|stroke|stop-color|flood-color|lighting-color)="([^"]*)"/gi;
 const STYLE_DECL_RE = /(?:fill|stroke|stop-color|flood-color|lighting-color)\s*:\s*([^;]+)/gi;
 const STYLE_ATTR_RE = /(\sstyle=")([^"]*)(")/gi;
 
@@ -169,7 +216,7 @@ const shouldReplaceColor = (value: string): boolean => {
  */
 export const replaceColorsWithCurrentColor = (markup: string): string => {
   // Replace colors in presentation attributes
-  let result = markup.replace(COLOR_ATTR_RE, (match, _attr: string, rawValue: string) => {
+  let result = markup.replace(COLOR_ATTR_RE, (match, _prefix: string, _attr: string, rawValue: string) => {
     if (!shouldReplaceColor(rawValue)) return match;
     return match.replace(rawValue, 'currentColor');
   });

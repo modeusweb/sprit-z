@@ -10,6 +10,12 @@ export interface SvgIcon {
   viewBox?: string;
   width?: string;
   height?: string;
+  /**
+   * Inherited presentation attributes (`fill`, `stroke`, `stroke-width`, …)
+   * captured from the source root `<svg>` and re-emitted on the `<symbol>`,
+   * so icons whose styling lives on the root keep their look in the sprite.
+   */
+  presentationAttrs?: string;
 }
 
 export interface SpriteOptions {
