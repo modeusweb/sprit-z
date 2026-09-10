@@ -7,7 +7,7 @@ const STEPS = [
   {
     number: 2,
     title: 'Configure',
-    description: 'Set an optional symbol ID prefix to avoid collisions.',
+    description: 'Customize sprite settings like prefix, minification, and icon class.',
   },
   {
     number: 3,
