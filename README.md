@@ -150,7 +150,8 @@ MIT
 
 ## Support
 
-If you enjoy the app, you can support the project by sending a donation to:
+If you enjoy the app, you can support the project by sending **USDT (TRC-20)** to:
 ```
 TQZxZ2Ygh6RvkZDi5qswq8uF9KbDbDw9bo
 ```
+

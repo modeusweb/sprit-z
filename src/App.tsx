@@ -333,7 +333,7 @@ function App() {
                 Enjoying the app? <span className="text-pink-500 not-italic">♥</span>
               </p>
               <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-1 leading-snug">
-                A small token would mean a lot. Thank you kindly!
+                A small <span className="font-semibold text-purple-600 dark:text-purple-400">USDT (TRC-20)</span> token would mean a lot. Thank you kindly!
               </p>
               <div className="flex items-center gap-1.5 mt-2">
                 <code className="flex-1 min-w-0 text-[10px] text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg px-2 py-1.5 truncate block">
