@@ -9,7 +9,6 @@ interface CodeOutputProps {
 
 export const CodeOutput = memo(function CodeOutput({ label, code, downloadName, hint }: CodeOutputProps) {
   const [copied, setCopied] = useState(false);
-  const [copiedDataUri, setCopiedDataUri] = useState(false);
   const copyTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Clear pending reset timer on unmount to avoid setting state after unmount
@@ -33,16 +32,6 @@ export const CodeOutput = memo(function CodeOutput({ label, code, downloadName, 
       flashCopied(setCopied);
     } catch (error) {
       console.error('Failed to copy:', error);
-    }
-  };
-
-  const handleCopyDataUri = async () => {
-    try {
-      const dataUri = `data:image/svg+xml,${encodeURIComponent(code)}`;
-      await navigator.clipboard.writeText(dataUri);
-      flashCopied(setCopiedDataUri);
-    } catch (error) {
-      console.error('Failed to copy data URI:', error);
     }
   };
 
@@ -100,27 +89,6 @@ export const CodeOutput = memo(function CodeOutput({ label, code, downloadName, 
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                 </svg>
                 Copy
-              </>
-            )}
-          </button>
-          <button
-            onClick={handleCopyDataUri}
-            title="Copy as a data:image/svg+xml URL (handy for CSS background-image)"
-            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium bg-gray-100 hover:bg-gray-200 text-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 rounded-lg transition-colors"
-          >
-            {copiedDataUri ? (
-              <>
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                Copied!
-              </>
-            ) : (
-              <>
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
-                </svg>
-                Data URI
               </>
             )}
           </button>

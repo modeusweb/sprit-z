@@ -31,7 +31,8 @@
   border-radius: 8px;
 }
 
-/* Subtle purple selection */
+/* Contrasting purple selection */
 ::selection {
-  background: #a855f740;
+  background: #7c3aed;
+  color: #ffffff;
 }
