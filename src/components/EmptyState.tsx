@@ -7,7 +7,7 @@ const STEPS = [
   {
     number: 2,
     title: 'Configure',
-    description: 'Set a symbol prefix, icon class, minify the output, or replace colors with currentColor.',
+    description: 'Set a symbol ID prefix, icon class, minify the output, or replace colors with currentColor.',
   },
   {
     number: 3,

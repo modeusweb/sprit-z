@@ -162,7 +162,7 @@ export default function SpriteGenerator() {
           <h2 className="text-sm font-semibold text-gray-800 dark:text-gray-200 mb-4">Settings</h2>
           <div className="space-y-4">
             <div>
-              <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5">Symbol prefix</label>
+              <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5">Symbol ID prefix</label>
               <input
                 type="text"
                 value={symbolPrefix}
