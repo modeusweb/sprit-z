@@ -22,7 +22,7 @@ export const FileUploader = memo(function FileUploader({ onFilesSelected }: File
   return (
     <div
       {...getRootProps()}
-      className={`border-2 border-dashed rounded-xl p-5 text-center cursor-pointer transition-all duration-300 ease-in-out
+      className={`border-2 border-dashed rounded-xl p-4 sm:p-5 text-center cursor-pointer transition-all duration-300 ease-in-out
         ${isDragActive
           ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/20 scale-[1.02]'
           : 'border-gray-300 dark:border-gray-600 hover:border-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/10'

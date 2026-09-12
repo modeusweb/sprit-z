@@ -62,7 +62,7 @@ export const CodeOutput = memo(function CodeOutput({ label, code, downloadName, 
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
-      <div className="flex items-center justify-between gap-3 px-4 py-2.5 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 px-3 py-2.5 sm:px-4 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
         <div className="flex items-center gap-2 min-w-0">
           <span className="w-2 h-2 rounded-full bg-purple-500 shrink-0" />
           <h3 className="text-sm font-semibold text-gray-800 dark:text-gray-200 truncate">{label}</h3>
@@ -107,7 +107,7 @@ export const CodeOutput = memo(function CodeOutput({ label, code, downloadName, 
       <pre
         onKeyDown={handleKeyDown}
         tabIndex={0}
-        className="bg-gray-900 text-gray-100 p-4 overflow-auto text-xs font-mono leading-relaxed"
+        className="bg-gray-900 text-gray-100 p-3 sm:p-4 overflow-auto text-xs font-mono leading-relaxed max-h-[50vh] lg:max-h-none"
       >
         <code>{code}</code>
       </pre>

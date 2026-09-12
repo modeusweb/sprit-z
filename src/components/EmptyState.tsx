@@ -18,7 +18,7 @@ const STEPS = [
 
 export const EmptyState = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-full px-8 text-center">
+    <div className="flex flex-col items-center justify-center h-full min-h-[70vh] lg:min-h-0 px-4 sm:px-8 text-center">
       <div
         className="w-24 h-24 rounded-2xl bg-purple-50 dark:bg-purple-900/20 flex items-center justify-center mb-6"
         aria-hidden="true"
@@ -31,12 +31,12 @@ export const EmptyState = () => {
       <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
         Build SVG Sprites in Seconds
       </h2>
-      <p className="text-sm text-gray-500 dark:text-gray-400 max-w-md mb-8">
+      <p className="text-sm text-gray-500 dark:text-gray-400 max-w-md mb-6 sm:mb-8">
         A free SVG sprite generator: combine multiple icons into one reusable
         sprite, clean up the markup, and cut page requests — no sign-up needed.
       </p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full max-w-3xl">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 w-full max-w-3xl">
         {STEPS.map((step) => (
           <div
             key={step.number}

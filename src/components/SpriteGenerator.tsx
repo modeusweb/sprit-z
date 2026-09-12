@@ -24,6 +24,7 @@ export default function SpriteGenerator() {
   const [minify, setMinify] = useState(() => loadState(STORAGE_KEYS.minify, false));
   const [iconClass, setIconClass] = useState(() => loadState(STORAGE_KEYS.iconClass, 'icon'));
   const [isProcessing, setIsProcessing] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const [walletCopied, setWalletCopied] = useState(false);
   const walletTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -128,9 +129,9 @@ export default function SpriteGenerator() {
   );
 
   return (
-    <div className="flex h-screen overflow-hidden">
-      <aside className="w-80 shrink-0 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col overflow-y-auto">
-        <header className="p-6 border-b border-gray-200 dark:border-gray-700">
+    <div className="flex flex-col lg:flex-row lg:h-screen lg:overflow-hidden">
+      <aside className="w-full lg:w-80 shrink-0 bg-white dark:bg-gray-800 border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-gray-700 flex flex-col lg:overflow-y-auto">
+        <header className="p-4 sm:p-6 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center gap-3 mb-2">
             <div
               className="w-10 h-10 rounded-xl bg-purple-600 flex items-center justify-center"
@@ -149,7 +150,7 @@ export default function SpriteGenerator() {
           </div>
         </header>
 
-        <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+        <div className="p-4 sm:p-6 border-b border-gray-200 dark:border-gray-700">
           <FileUploader onFilesSelected={handleFilesSelected} />
           {isProcessing && (
             <p className="text-xs text-purple-600 dark:text-purple-400 mt-2 text-center animate-pulse">
@@ -158,55 +159,82 @@ export default function SpriteGenerator() {
           )}
         </div>
 
-        <div className="p-6 border-b border-gray-200 dark:border-gray-700">
-          <h2 className="text-sm font-semibold text-gray-800 dark:text-gray-200 mb-4">Settings</h2>
-          <div className="space-y-4">
-            <div>
-              <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5">Symbol ID prefix</label>
-              <input
-                type="text"
-                value={symbolPrefix}
-                onChange={(e) => setSymbolPrefix(e.target.value)}
-                placeholder="e.g. icon"
-                className="w-full px-3 py-2 text-sm bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:text-white placeholder-gray-400 dark:placeholder-gray-500 outline-none transition-colors"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5">Icon class</label>
-              <input
-                type="text"
-                value={iconClass}
-                onChange={(e) => setIconClass(e.target.value)}
-                placeholder="icon"
-                className="w-full px-3 py-2 text-sm bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:text-white placeholder-gray-400 dark:placeholder-gray-500 outline-none transition-colors"
-              />
-            </div>
-            <div className="flex items-center justify-between">
-              <label className="text-xs font-medium text-gray-600 dark:text-gray-400">Replace colors with currentColor</label>
-              <button
-                onClick={() => setUseCurrentColor(!useCurrentColor)}
-                className={'relative inline-flex h-5 w-9 items-center rounded-full transition-colors ' + (useCurrentColor ? 'bg-purple-600' : 'bg-gray-300 dark:bg-gray-600')}
-              >
-                <span
-                  className={'inline-block h-4 w-4 transform rounded-full bg-white transition-transform ' + (useCurrentColor ? 'translate-x-4' : 'translate-x-0.5')}
+        <div className="border-b border-gray-200 dark:border-gray-700">
+          <button
+            type="button"
+            onClick={() => setSettingsOpen(open => !open)}
+            aria-expanded={settingsOpen}
+            aria-controls="settings-panel"
+            className="lg:hidden w-full flex items-center justify-between px-4 py-3.5 sm:px-6 text-sm font-semibold text-gray-800 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+          >
+            Settings
+            <svg
+              className={'w-4 h-4 transition-transform ' + (settingsOpen ? 'rotate-180' : '')}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div
+            id="settings-panel"
+            className={(settingsOpen ? 'block' : 'hidden') + ' lg:block px-4 pb-5 pt-1 sm:px-6 sm:pb-6 lg:p-6'}
+          >
+            <h2 className="hidden lg:block text-sm font-semibold text-gray-800 dark:text-gray-200 mb-4">Settings</h2>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5">Symbol ID prefix</label>
+                <input
+                  type="text"
+                  value={symbolPrefix}
+                  onChange={(e) => setSymbolPrefix(e.target.value)}
+                  placeholder="e.g. icon"
+                  className="w-full px-3 py-2 text-sm bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:text-white placeholder-gray-400 dark:placeholder-gray-500 outline-none transition-colors"
                 />
-              </button>
-            </div>
-            <div className="flex items-center justify-between">
-              <label className="text-xs font-medium text-gray-600 dark:text-gray-400">Minify output</label>
-              <button
-                onClick={() => setMinify(!minify)}
-                className={'relative inline-flex h-5 w-9 items-center rounded-full transition-colors ' + (minify ? 'bg-purple-600' : 'bg-gray-300 dark:bg-gray-600')}
-              >
-                <span
-                  className={'inline-block h-4 w-4 transform rounded-full bg-white transition-transform ' + (minify ? 'translate-x-4' : 'translate-x-0.5')}
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5">Icon class</label>
+                <input
+                  type="text"
+                  value={iconClass}
+                  onChange={(e) => setIconClass(e.target.value)}
+                  placeholder="icon"
+                  className="w-full px-3 py-2 text-sm bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:text-white placeholder-gray-400 dark:placeholder-gray-500 outline-none transition-colors"
                 />
-              </button>
+              </div>
+              <div className="flex items-center justify-between gap-3">
+                <label className="text-xs font-medium text-gray-600 dark:text-gray-400">Replace colors with currentColor</label>
+                <button
+                  onClick={() => setUseCurrentColor(!useCurrentColor)}
+                  aria-label="Toggle replace colors with currentColor"
+                  aria-pressed={useCurrentColor}
+                  className={'relative inline-flex h-6 w-11 sm:h-5 sm:w-9 shrink-0 items-center rounded-full transition-colors ' + (useCurrentColor ? 'bg-purple-600' : 'bg-gray-300 dark:bg-gray-600')}
+                >
+                  <span
+                    className={'inline-block h-5 w-5 sm:h-4 sm:w-4 transform rounded-full bg-white transition-transform ' + (useCurrentColor ? 'translate-x-5 sm:translate-x-4' : 'translate-x-1 sm:translate-x-0.5')}
+                  />
+                </button>
+              </div>
+              <div className="flex items-center justify-between gap-3">
+                <label className="text-xs font-medium text-gray-600 dark:text-gray-400">Minify output</label>
+                <button
+                  onClick={() => setMinify(!minify)}
+                  aria-label="Toggle minify output"
+                  aria-pressed={minify}
+                  className={'relative inline-flex h-6 w-11 sm:h-5 sm:w-9 shrink-0 items-center rounded-full transition-colors ' + (minify ? 'bg-purple-600' : 'bg-gray-300 dark:bg-gray-600')}
+                >
+                  <span
+                    className={'inline-block h-5 w-5 sm:h-4 sm:w-4 transform rounded-full bg-white transition-transform ' + (minify ? 'translate-x-5 sm:translate-x-4' : 'translate-x-1 sm:translate-x-0.5')}
+                  />
+                </button>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="p-6 mt-auto">
+        <div className="p-4 sm:p-6 lg:mt-auto">
           <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 rounded-xl p-4 border border-purple-200 dark:border-purple-800">
             <div className="flex items-center gap-2 mb-2">
               <svg className="w-4 h-4 text-purple-600 dark:text-purple-400" fill="currentColor" viewBox="0 0 20 20">
@@ -259,8 +287,8 @@ export default function SpriteGenerator() {
         </div>
       </aside>
 
-      <main id="main" className="flex-1 flex flex-col overflow-hidden">
-        <div className={(icons.length === 0 ? 'flex-1' : 'max-h-[26rem]') + ' overflow-y-auto p-6 pb-10'}>
+      <main id="main" className="flex-1 flex flex-col lg:overflow-hidden min-w-0">
+        <div className={(icons.length === 0 ? 'flex-1 min-h-[70vh] lg:min-h-0 lg:overflow-y-auto' : 'lg:max-h-[26rem] lg:overflow-y-auto') + ' p-4 sm:p-6 pb-10'}>
           {icons.length === 0 ? (
             <EmptyState />
           ) : (
@@ -276,7 +304,7 @@ export default function SpriteGenerator() {
         </div>
 
         {icons.length > 0 && (
-          <div className="flex-1 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 overflow-y-auto">
+          <div className="border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 lg:flex-1 lg:overflow-y-auto">
             <div className="p-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
               <CodeOutput
                 label="SVG Sprite"

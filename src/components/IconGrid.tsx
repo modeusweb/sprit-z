@@ -43,7 +43,7 @@ const IconCard = memo(function IconCard({
       <button
         type="button"
         onClick={() => onRemove(icon.id)}
-        className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 hover:bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity flex items-center justify-center shadow-md z-10"
+        className="absolute -top-2 -right-2 w-7 h-7 sm:w-6 sm:h-6 bg-red-500 hover:bg-red-600 text-white rounded-full opacity-100 lg:opacity-0 lg:group-hover:opacity-100 lg:focus:opacity-100 transition-opacity flex items-center justify-center shadow-md z-10"
         title="Remove icon"
         aria-label={`Remove ${icon.name}`}
       >
@@ -64,7 +64,7 @@ const IconCard = memo(function IconCard({
       </button>
 
       <label
-        className="absolute -top-2 -left-2 w-6 h-6 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded cursor-pointer flex items-center justify-center shadow-sm z-10"
+        className="absolute -top-2 -left-2 w-7 h-7 sm:w-6 sm:h-6 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded cursor-pointer flex items-center justify-center shadow-sm z-10"
         title={enabled ? 'Included in sprite' : 'Excluded from sprite'}
       >
         <input
@@ -194,7 +194,7 @@ export default function IconGrid({
             type="button"
             onClick={() => onSetAllEnabled(true)}
             disabled={allEnabled}
-            className="px-2.5 py-1.5 text-xs text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100 disabled:opacity-40 rounded-lg transition-colors"
+            className="px-3 py-2 sm:px-2.5 sm:py-1.5 text-xs text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100 disabled:opacity-40 rounded-lg transition-colors"
             title="Include all icons in the sprite"
           >
             Select all
@@ -204,7 +204,7 @@ export default function IconGrid({
             type="button"
             onClick={() => onSetAllEnabled(false)}
             disabled={noneEnabled}
-            className="px-2.5 py-1.5 text-xs text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100 disabled:opacity-40 rounded-lg transition-colors"
+            className="px-3 py-2 sm:px-2.5 sm:py-1.5 text-xs text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100 disabled:opacity-40 rounded-lg transition-colors"
             title="Exclude all icons from the sprite"
           >
             Select none
@@ -232,14 +232,14 @@ export default function IconGrid({
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search icons…"
               aria-label="Search icons"
-              className="w-40 px-3 py-1.5 pl-8 text-sm bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:text-white placeholder-gray-400 dark:placeholder-gray-500 outline-none transition-colors"
+              className="w-full sm:w-40 px-3 py-2 sm:py-1.5 pl-8 text-sm bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:text-white placeholder-gray-400 dark:placeholder-gray-500 outline-none transition-colors"
             />
           </div>
 
           <button
             type="button"
             onClick={onClearAll}
-            className="px-3 py-1.5 text-sm text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+            className="px-3 py-2 sm:py-1.5 text-sm text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
           >
             Clear All
           </button>

@@ -6,7 +6,7 @@ export default function AboutSection() {
       aria-labelledby="about-heading"
       className="border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800"
     >
-      <div className="max-w-3xl mx-auto px-6 py-14 space-y-10">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-14 space-y-8 sm:space-y-10">
         <div className="space-y-4">
           <h2 id="about-heading" className="text-xl font-semibold text-gray-900 dark:text-white">
             What is an SVG sprite generator?

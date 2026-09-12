@@ -76,7 +76,7 @@ export default function ShareButtons() {
           rel="noopener noreferrer"
           aria-label={network.label}
           title={network.label}
-          className="w-9 h-9 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 hover:border-purple-300 dark:hover:border-purple-500 flex items-center justify-center transition-colors"
+          className="w-10 h-10 sm:w-9 sm:h-9 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 hover:border-purple-300 dark:hover:border-purple-500 flex items-center justify-center transition-colors"
         >
           <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path d={network.path} />
