@@ -4,7 +4,7 @@ import './globals.css';
 const SITE_NAME = 'Sprit-Z';
 const SITE_URL = 'https://sprit-z.vercel.app';
 const PAGE_TITLE =
-  'Free SVG Sprite Generator — Combine Icons into Sprites | Sprit-Z';
+  'Free SVG Sprite Generator — Combine Icons Online | Sprit-Z';
 const PAGE_DESCRIPTION =
   'Free online SVG sprite generator. Turn multiple icons into one reusable sprite, minify the markup, and speed up your web project in the browser.';
 
