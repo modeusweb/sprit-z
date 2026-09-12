@@ -233,6 +233,9 @@ export const generateSpriteMarkup = (
   const { symbolPrefix = '', minify = false } = options;
   const prefix = symbolPrefix ? `${symbolPrefix}-` : '';
 
+  // Matches a `fill="…"` attribute inside an attribute-list string.
+  const HAS_FILL_RE = /\bfill\s*=\s*"/;
+
   const symbols = icons
     .filter(icon => icon.enabled !== false)
     .map(icon => {
@@ -241,10 +244,16 @@ export const generateSpriteMarkup = (
       // stroke="currentColor", stroke-width, …) — it never makes it into
       // innerContent, but still applies to every shape inside the symbol.
       const presentationAttrs = icon.presentationAttrs ? ` ${icon.presentationAttrs}` : '';
+      // Outline icon sets render at their best with `fill="none"`. When the
+      // root <svg> already declared a fill (fill="none" or, for solid icons,
+      // fill="currentColor"), keep that one instead of emitting a duplicate.
+      const fillAttr = icon.presentationAttrs && HAS_FILL_RE.test(icon.presentationAttrs)
+        ? ''
+        : ' fill="none"';
       const formattedInnerContent = minify 
         ? stripXmlns(icon.innerContent)
         : formatMarkup(stripXmlns(icon.innerContent), 2);
-      return `  <symbol id="${symbolId}"${icon.viewBox ? ` viewBox="${icon.viewBox}"` : ''}${presentationAttrs}>
+      return `  <symbol id="${symbolId}"${fillAttr}${icon.viewBox ? ` viewBox="${icon.viewBox}"` : ''}${presentationAttrs}>
 ${formattedInnerContent}
   </symbol>`;
     })
