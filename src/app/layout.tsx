@@ -50,6 +50,10 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  verification: {
+    google: 'w_s1YAdGDmNMm19tV4F6fl_4o15nDgnZGLM8ledX-f8',
+    yandex: '71b9d9fa4a37e15a',
+  },
   category: 'technology',
   classification: 'DeveloperApplication',
   manifest: '/manifest.json',
