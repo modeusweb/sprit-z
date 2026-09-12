@@ -233,8 +233,11 @@ export const generateSpriteMarkup = (
   const { symbolPrefix = '', minify = false } = options;
   const prefix = symbolPrefix ? `${symbolPrefix}-` : '';
 
-  // Matches a `fill="…"` attribute inside an attribute-list string.
-  const HAS_FILL_RE = /\bfill\s*=\s*"/;
+  // Captures the root's own `fill="…"` attribute inside an attribute-list
+  // string, e.g. `fill="none" stroke="currentColor" stroke-width="2"`.
+  // `fill-rule`/`fill-opacity` don't match: the pattern requires `=` right
+  // after `fill`, so only the bare attribute is lifted out.
+  const FILL_ATTR_RE = /\s*\bfill\s*=\s*"([^"]*)"/i;
 
   const symbols = icons
     .filter(icon => icon.enabled !== false)
@@ -243,17 +246,20 @@ export const generateSpriteMarkup = (
       // Re-attach styling captured from the source root <svg> (fill="none",
       // stroke="currentColor", stroke-width, …) — it never makes it into
       // innerContent, but still applies to every shape inside the symbol.
-      const presentationAttrs = icon.presentationAttrs ? ` ${icon.presentationAttrs}` : '';
-      // Outline icon sets render at their best with `fill="none"`. When the
-      // root <svg> already declared a fill (fill="none" or, for solid icons,
-      // fill="currentColor"), keep that one instead of emitting a duplicate.
-      const fillAttr = icon.presentationAttrs && HAS_FILL_RE.test(icon.presentationAttrs)
-        ? ''
-        : ' fill="none"';
+      const presentationAttrs = icon.presentationAttrs ?? '';
+      // The root's own fill is pulled out of presentationAttrs so that the
+      // fill attribute is ALWAYS the last one on the opening <symbol> tag.
+      // Its value is kept when the root declared one (solid sets use
+      // `fill="currentColor"` — writing `fill="none"` over it would hide
+      // the glyphs); otherwise it defaults to `fill="none"`, which is what
+      // outline sets want anyway.
+      const rootFill = presentationAttrs.match(FILL_ATTR_RE);
+      const inheritedAttrs = presentationAttrs.replace(FILL_ATTR_RE, '').trim();
+      const trailingFill = ` fill="${rootFill ? rootFill[1] : 'none'}"`;
       const formattedInnerContent = minify 
         ? stripXmlns(icon.innerContent)
         : formatMarkup(stripXmlns(icon.innerContent), 2);
-      return `  <symbol id="${symbolId}"${fillAttr}${icon.viewBox ? ` viewBox="${icon.viewBox}"` : ''}${presentationAttrs}>
+      return `  <symbol id="${symbolId}"${icon.viewBox ? ` viewBox="${icon.viewBox}"` : ''}${inheritedAttrs ? ` ${inheritedAttrs}` : ''}${trailingFill}>
 ${formattedInnerContent}
   </symbol>`;
     })
