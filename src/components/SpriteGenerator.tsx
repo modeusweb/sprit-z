@@ -130,19 +130,24 @@ export default function SpriteGenerator() {
   return (
     <div className="flex h-screen overflow-hidden">
       <aside className="w-80 shrink-0 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col overflow-y-auto">
-        <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+        <header className="p-6 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-purple-600 flex items-center justify-center">
+            <div
+              className="w-10 h-10 rounded-xl bg-purple-600 flex items-center justify-center"
+              aria-hidden="true"
+            >
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-900 dark:text-white">Sprit-Z</h1>
+              <h1 className="text-xl font-bold text-gray-900 dark:text-white">
+                Sprit-Z<span className="sr-only"> — Free SVG Sprite Generator</span>
+              </h1>
               <p className="text-xs text-gray-500 dark:text-gray-400">SVG Sprite Generator</p>
             </div>
           </div>
-        </div>
+        </header>
 
         <div className="p-6 border-b border-gray-200 dark:border-gray-700">
           <FileUploader onFilesSelected={handleFilesSelected} />
@@ -239,10 +244,22 @@ export default function SpriteGenerator() {
               </button>
             </div>
           </div>
+          <a
+            href="https://github.com/modeusweb/sprit-z"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-3 inline-flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+            title="Sprit-Z on GitHub — open-source project"
+          >
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 1.868v-6.297l1.47-1.516 2.909-2.853 6.015-5.036M8 12.647l-1.372-1.574-2.862-2.759-3.986 1.779M8 9.798V1.63l1.418 2.671 2.762 2.887 4.584 3.822 1.454.43" />
+            </svg>
+            Open-source on GitHub
+          </a>
         </div>
       </aside>
 
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <main id="main" className="flex-1 flex flex-col overflow-hidden">
         <div className={(icons.length === 0 ? 'flex-1' : 'max-h-[26rem]') + ' overflow-y-auto p-6 pb-10'}>
           {icons.length === 0 ? (
             <EmptyState />
@@ -275,7 +292,7 @@ export default function SpriteGenerator() {
             </div>
           </div>
         )}
-      </div>
+      </main>
     </div>
   );
 }
