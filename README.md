@@ -45,18 +45,18 @@ npm install
 npm run dev
 ```
 
-The application will be available at `http://localhost:5173`
+The application will be available at `http://localhost:3000`
 
 ### Production Build
 ```bash
 npm run build
 ```
 
-Built files will be located in the `dist/` directory
+Built files will be located in the `.next/` directory
 
-### Preview Production Build
+### Start Production Server
 ```bash
-npm run preview
+npm run start
 ```
 
 ## How to Use
@@ -140,7 +140,7 @@ Save the generated sprite as `sprite.svg` and include it in your HTML:
 
 - **React 19** — UI library
 - **TypeScript** — type safety
-- **Vite** — build tool and dev server
+- **Next.js 16** — full-stack framework with SSR
 - **Tailwind CSS** — styling
 - **react-dropzone** — file upload
 

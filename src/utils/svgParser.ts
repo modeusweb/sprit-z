@@ -1,8 +1,16 @@
-import type { SvgIcon } from '../types';
+import type { SvgIcon } from '@/types';
 
-// DOMParser is state-free (each parseFromString produces a fresh document),
+// DOMParser is state-less (each parseFromString produces a fresh document),
 // so a single instance can be safely shared across all files being parsed.
-const domParser = new DOMParser();
+// Using lazy initialization to avoid SSR issues (DOMParser is browser-only).
+let domParser: DOMParser | null = null;
+
+const getDomParser = (): DOMParser => {
+  if (!domParser) {
+    domParser = new DOMParser();
+  }
+  return domParser;
+};
 
 /**
  * Keeps only characters that are safe in an SVG `id` / `href` fragment:
@@ -60,7 +68,7 @@ export const parseSvgFile = (file: File): Promise<SvgIcon> => {
     reader.onload = (e) => {
       try {
         const fileContent = e.target?.result as string;
-        const doc = domParser.parseFromString(fileContent, 'image/svg+xml');
+        const doc = getDomParser().parseFromString(fileContent, 'image/svg+xml');
         const svgElement = doc.querySelector('svg');
 
         if (!svgElement) {
@@ -133,7 +141,7 @@ export const formatMarkup = (markup: string, baseIndent: number = 0): string => 
   
   // Wrap in a container to parse
   const container = `<container>${markup}</container>`;
-  const doc = domParser.parseFromString(container, 'image/svg+xml');
+    const doc = getDomParser().parseFromString(container, 'image/svg+xml');
   const containerEl = doc.querySelector('container');
   
   if (!containerEl) {
