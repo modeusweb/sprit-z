@@ -18,13 +18,16 @@ const STORAGE_KEYS = {
 };
 
 export default function SpriteGenerator() {
-  const [icons, setIcons] = useState<SvgIcon[]>(() => loadState(STORAGE_KEYS.icons, []));
-  const [symbolPrefix, setSymbolPrefix] = useState(() => loadState(STORAGE_KEYS.symbolPrefix, ''));
-  const [useCurrentColor, setUseCurrentColor] = useState(() => loadState(STORAGE_KEYS.useCurrentColor, false));
-  const [minify, setMinify] = useState(() => loadState(STORAGE_KEYS.minify, false));
-  const [iconClass, setIconClass] = useState(() => loadState(STORAGE_KEYS.iconClass, 'icon'));
+  // Server-safe defaults: localStorage is read after hydration (see effect below)
+  // so that SSR markup always matches the first client render.
+  const [icons, setIcons] = useState<SvgIcon[]>([]);
+  const [symbolPrefix, setSymbolPrefix] = useState('');
+  const [useCurrentColor, setUseCurrentColor] = useState(false);
+  const [minify, setMinify] = useState(false);
+  const [iconClass, setIconClass] = useState('icon');
   const [isProcessing, setIsProcessing] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const [walletCopied, setWalletCopied] = useState(false);
   const walletTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -41,25 +44,38 @@ export default function SpriteGenerator() {
     }
   }, []);
 
+  // Restore persisted state once, after hydration. Reading it during render
+  // (useState initializer) produced a server/client markup mismatch.
   useEffect(() => {
-    saveState(STORAGE_KEYS.icons, icons);
-  }, [icons]);
+    setMounted(true);
+    setIcons(loadState(STORAGE_KEYS.icons, []));
+    setSymbolPrefix(loadState(STORAGE_KEYS.symbolPrefix, ''));
+    setUseCurrentColor(loadState(STORAGE_KEYS.useCurrentColor, false));
+    setMinify(loadState(STORAGE_KEYS.minify, false));
+    setIconClass(loadState(STORAGE_KEYS.iconClass, 'icon'));
+  }, []);
+
+  // Persist only after mount: the initial effect flush must not overwrite
+  // saved state with the pre-hydration defaults.
+  useEffect(() => {
+    if (mounted) saveState(STORAGE_KEYS.icons, icons);
+  }, [mounted, icons]);
 
   useEffect(() => {
-    saveState(STORAGE_KEYS.symbolPrefix, symbolPrefix);
-  }, [symbolPrefix]);
+    if (mounted) saveState(STORAGE_KEYS.symbolPrefix, symbolPrefix);
+  }, [mounted, symbolPrefix]);
 
   useEffect(() => {
-    saveState(STORAGE_KEYS.useCurrentColor, useCurrentColor);
-  }, [useCurrentColor]);
+    if (mounted) saveState(STORAGE_KEYS.useCurrentColor, useCurrentColor);
+  }, [mounted, useCurrentColor]);
 
   useEffect(() => {
-    saveState(STORAGE_KEYS.minify, minify);
-  }, [minify]);
+    if (mounted) saveState(STORAGE_KEYS.minify, minify);
+  }, [mounted, minify]);
 
   useEffect(() => {
-    saveState(STORAGE_KEYS.iconClass, iconClass);
-  }, [iconClass]);
+    if (mounted) saveState(STORAGE_KEYS.iconClass, iconClass);
+  }, [mounted, iconClass]);
 
   const handleFilesSelected = useCallback(async (files: File[]) => {
     if (files.length === 0) return;
