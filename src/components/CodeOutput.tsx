@@ -1,4 +1,6 @@
 import { memo, useEffect, useRef, useState } from 'react';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 interface CodeOutputProps {
   label: string;
@@ -47,7 +49,7 @@ export const CodeOutput = memo(function CodeOutput({ label, code, downloadName, 
     URL.revokeObjectURL(url);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLPreElement>) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
       e.preventDefault();
       const selection = window.getSelection();
@@ -59,6 +61,8 @@ export const CodeOutput = memo(function CodeOutput({ label, code, downloadName, 
       }
     }
   };
+
+  const language = label.toLowerCase().includes('sprite') || label.toLowerCase().includes('usage') ? 'markup' : 'markup';
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
@@ -104,13 +108,28 @@ export const CodeOutput = memo(function CodeOutput({ label, code, downloadName, 
         </div>
       </div>
 
-      <pre
+      <div
         onKeyDown={handleKeyDown}
         tabIndex={0}
-        className="bg-gray-900 text-gray-100 p-3 sm:p-4 overflow-auto text-xs font-mono leading-relaxed max-h-[50vh] lg:max-h-none"
+        className="max-h-[50vh] lg:max-h-none overflow-auto"
       >
-        <code>{code}</code>
-      </pre>
+        <SyntaxHighlighter
+          language={language}
+          style={oneDark}
+          customStyle={{
+            margin: 0,
+            borderRadius: 0,
+            background: '#1f2937',
+            fontSize: '0.75rem',
+            lineHeight: '1.6',
+          }}
+          codeTagProps={{
+            className: 'font-mono',
+          }}
+        >
+          {code}
+        </SyntaxHighlighter>
+      </div>
 
       {hint && (
         <p className="px-4 py-2 text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">

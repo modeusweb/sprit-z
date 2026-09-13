@@ -20,9 +20,11 @@
     "typescript": "~6.0.2"
   },
   "dependencies": {
+    "@types/react-syntax-highlighter": "^15.5.13",
     "next": "^16.3.5",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
-    "react-dropzone": "^20.1.1"
+    "react-dropzone": "^20.1.1",
+    "react-syntax-highlighter": "^16.1.1"
   }
 }
