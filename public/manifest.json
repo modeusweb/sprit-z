@@ -1,7 +1,7 @@
 {
   "name": "Sprit-Z - SVG Sprite Generator",
   "short_name": "Sprit-Z",
-  "description": "Free online SVG sprite generator. Combine multiple SVG icons into a single reusable sprite.",
+  "description": "Sprit-Z is a free online SVG sprite generator. Combine multiple SVG icons into a single reusable sprite.",
   "lang": "en",
   "dir": "ltr",
   "start_url": "/",

@@ -2,11 +2,12 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 
 const SITE_NAME = 'Sprit-Z';
+const AUTHOR_NAME = 'modeusweb';
 const SITE_URL = 'https://sprit-z.vercel.app';
 const PAGE_TITLE =
-  'Free SVG Sprite Generator — Combine Icons Online | Sprit-Z';
+  'Sprit-Z — Free SVG Sprite Generator — Combine Icons Online';
 const PAGE_DESCRIPTION =
-  'Free online SVG sprite generator. Turn multiple icons into one reusable sprite, minify the markup, and speed up your web project in the browser.';
+  'Sprit-Z is a free online SVG sprite generator. Turn multiple icons into one reusable sprite, minify the markup, and speed up your web project in the browser.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -27,9 +28,9 @@ export const metadata: Metadata = {
     'SVG optimizer',
     'sprite sheet generator',
   ],
-  authors: [{ name: SITE_NAME, url: SITE_URL }],
-  creator: SITE_NAME,
-  publisher: SITE_NAME,
+  authors: [{ name: AUTHOR_NAME, url: SITE_URL }],
+  creator: AUTHOR_NAME,
+  publisher: AUTHOR_NAME,
   formatDetection: {
     telephone: false,
   },
@@ -125,7 +126,7 @@ export default function RootLayout({
               inLanguage: 'en',
               isAccessibleForFree: true,
               description:
-                'Free online SVG sprite generator. Combine multiple SVG icons into a single reusable sprite, optimize the markup, and speed up your web project.',
+                'Sprit-Z is a free online SVG sprite generator. Combine multiple SVG icons into a single reusable sprite, optimize the markup, and speed up your web project.',
               offers: {
                 '@type': 'Offer',
                 url: `${SITE_URL}/`,
@@ -135,13 +136,13 @@ export default function RootLayout({
               },
               author: {
                 '@type': 'Organization',
-                name: 'Sprit-Z',
+                name: AUTHOR_NAME,
                 url: `${SITE_URL}/`,
                 logo: `${SITE_URL}/favicon.svg`,
               },
               publisher: {
                 '@type': 'Organization',
-                name: 'Sprit-Z',
+                name: AUTHOR_NAME,
                 url: `${SITE_URL}/`,
                 logo: `${SITE_URL}/favicon.svg`,
               },
