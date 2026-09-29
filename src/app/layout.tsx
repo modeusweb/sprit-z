@@ -66,8 +66,7 @@ export const metadata: Metadata = {
     follow: true,
   },
   verification: {
-    google: 'w_s1YAdGDmNMm19tV4F6fl_4o15nDgnZGLM8ledX-f8',
-    yandex: '71b9d9fa4a37e15a',
+    google: '0D59jG7JMUj7sXOpK7E1--vZ0ptpdRe0TBSvBKaUGwM',
   },
   category: 'technology',
   classification: 'DeveloperApplication',
