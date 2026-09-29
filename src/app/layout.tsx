@@ -3,7 +3,9 @@ import './globals.css';
 
 const SITE_NAME = 'Sprit-Z';
 const AUTHOR_NAME = 'modeusweb';
-const SITE_URL = 'https://sprit-z.vercel.app';
+// GitHub Pages project site: https://<user>.github.io/<repo>
+const SITE_URL = 'https://modeusweb.github.io/sprit-z';
+const BASE_PATH = '/sprit-z';
 const PAGE_TITLE =
   'Sprit-Z — Free SVG Sprite Generator — Combine Icons Online';
 const PAGE_DESCRIPTION =
@@ -69,15 +71,15 @@ export const metadata: Metadata = {
   },
   category: 'technology',
   classification: 'DeveloperApplication',
-  manifest: '/manifest.json',
+  manifest: `${BASE_PATH}/manifest.json`,
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: '16x16 32x32', type: 'image/x-icon' },
-      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-      { url: '/favicon.svg', sizes: 'any', type: 'image/svg+xml' },
+      { url: `${BASE_PATH}/favicon.ico`, sizes: '16x16 32x32', type: 'image/x-icon' },
+      { url: `${BASE_PATH}/favicon-32x32.png`, sizes: '32x32', type: 'image/png' },
+      { url: `${BASE_PATH}/favicon.svg`, sizes: 'any', type: 'image/svg+xml' },
     ],
-    shortcut: '/favicon.ico',
-    apple: '/apple-touch-icon.png',
+    shortcut: `${BASE_PATH}/favicon.ico`,
+    apple: `${BASE_PATH}/apple-touch-icon.png`,
   },
   other: {
     'msapplication-TileColor': '#9333ea',
@@ -103,10 +105,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="16x16 32x32" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/x-icon" href={`${BASE_PATH}/favicon.ico`} sizes="16x16 32x32" />
+        <link rel="icon" type="image/png" sizes="32x32" href={`${BASE_PATH}/favicon-32x32.png`} />
+        <link rel="icon" type="image/svg+xml" href={`${BASE_PATH}/favicon.svg`} />
+        <link rel="apple-touch-icon" sizes="180x180" href={`${BASE_PATH}/apple-touch-icon.png`} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

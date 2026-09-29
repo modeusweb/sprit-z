@@ -4,21 +4,21 @@
   "description": "Sprit-Z is a free online SVG sprite generator. Combine multiple SVG icons into a single reusable sprite.",
   "lang": "en",
   "dir": "ltr",
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "/sprit-z/",
+  "scope": "/sprit-z/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#9333ea",
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/apple-touch-icon.png",
+      "src": "/sprit-z/apple-touch-icon.png",
       "sizes": "180x180",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/favicon.svg",
+      "src": "/sprit-z/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
@@ -34,10 +34,10 @@
       "name": "Create Sprite",
       "short_name": "New Sprite",
       "description": "Create a new SVG sprite",
-      "url": "/",
+      "url": "/sprit-z/",
       "icons": [
         {
-          "src": "/apple-touch-icon.png",
+          "src": "/sprit-z/apple-touch-icon.png",
           "sizes": "180x180"
         }
       ]

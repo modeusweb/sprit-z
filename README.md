@@ -8,7 +8,7 @@ Sprit-Z is a convenient tool for creating SVG sprites from individual icons. The
 
 ## Demo
 
-Try the application online: [https://sprit-z.vercel.app/](https://sprit-z.vercel.app/)
+Try the application online: [https://modeusweb.github.io/sprit-z/](https://modeusweb.github.io/sprit-z/)
 
 ## Key Features
 
@@ -47,17 +47,33 @@ npm run dev
 
 The application will be available at `http://localhost:3000`
 
-### Production Build
+### Production Build (static export)
 ```bash
 npm run build
 ```
 
-Built files will be located in the `.next/` directory
+The project uses `output: 'export'`, so the built static site is located in the `out/` directory.
 
-### Start Production Server
+To preview the exported site locally:
 ```bash
-npm run start
+npm run serve
 ```
+
+## Deployment
+
+The site is automatically deployed to **GitHub Pages** by GitHub Actions:
+
+- Workflow: `.github/workflows/deploy.yml`
+- Triggers on every push to `master` (and manual runs via `Actions → Deploy to GitHub Pages`)
+- Build output: `out/` (uploaded as the `github-pages` artifact and deployed to the `github-pages` environment)
+
+Because GitHub Pages serves a project site from a sub-path, the build uses `basePath: /sprit-z`
+(configurable via the `NEXT_PUBLIC_BASE_PATH` env variable). To build without the sub-path, run:
+```bash
+NEXT_PUBLIC_BASE_PATH= npm run build
+```
+
+Prerequisites in repository settings: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
 
 ## How to Use
 

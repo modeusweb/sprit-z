@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-const SHARE_URL = 'https://sprit-z.vercel.app/';
+const SHARE_URL = 'https://modeusweb.github.io/sprit-z/';
 const SHARE_TEXT =
   'Free SVG Sprite Generator — combine SVG icons into one sprite with Sprit-Z';
 
